@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -41,10 +42,9 @@ public class SubActivity extends AppCompatActivity
         nickName = intent.getStringExtra("name");
         Toast.makeText(this, nickName+"님 환영합니다!", Toast.LENGTH_SHORT).show();
     }
-    //    @Override
-//    public void onBackPressed(){
-//
-//    }
+    public String getNick(){
+        return nickName;
+    }
     private void createFragment(){
         f1 = new frag1();
         f2 = new frag2();
