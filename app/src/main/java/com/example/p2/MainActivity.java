@@ -7,6 +7,7 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -21,10 +22,22 @@ import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
 {
     private ISessionCallback mSessionCallback;
+    private String BASE_URL = "http://192.249.18.168:80";
+    private RetrofitInterface retrofitInterface;
+    private Retrofit retrofit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,6 +45,12 @@ public class MainActivity extends AppCompatActivity
         getAppKeyHash();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         mSessionCallback = new ISessionCallback()
         {
@@ -58,11 +77,13 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onSuccess(MeV2Response result)
                     {
+
                         // 로그인 성공
                         Intent intent = new Intent(MainActivity.this, SubActivity.class);
                         intent.putExtra("name", result.getKakaoAccount().getProfile().getNickname());
                         intent.putExtra("profileImg", result.getKakaoAccount().getProfile().getProfileImageUrl());
                         intent.putExtra("email", result.getKakaoAccount().getEmail());
+
 
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

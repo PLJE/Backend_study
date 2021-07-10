@@ -9,14 +9,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
+
+import org.w3c.dom.Text;
 
 
 public class frag3 extends Fragment {
 
     private Button bt_logout;
+
+    private String nickname;
+    private String profileImg;
+
+    private TextView nick;
+    private ImageView image;
 
     public frag3() {
 
@@ -52,6 +63,14 @@ public class frag3 extends Fragment {
                 });
             }
         });
+
+        nick = (TextView)v.findViewById(R.id.tv_nickname);
+
+        nickname = ((SubActivity)getActivity()).getNick();
+
+        nick.setText(nickname + " 님");
+
+
         return v;
     }
 }
